@@ -10,8 +10,8 @@ import {
   SkeletonMovieTitle,
   SkeletonMovieYear,
 } from './movieList_style';
-import { StoreContext } from '../../AppCore/Store/store';
 import { ContentSection } from '../../AppCore/app_style';
+import { StoreContext } from '../../AppCore/Store/store';
 
 const MovieList = () => {
   const { movies, loading } = useContext(StoreContext);

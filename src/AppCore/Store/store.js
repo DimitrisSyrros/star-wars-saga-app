@@ -1,17 +1,10 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import apiService from '../Api/movieApi';
+import { simplifyResults, sortFunc } from './utils';
 
 export const StoreContext = createContext(null);
 
-export const simplifyResults = (results) =>
-  results.map((movie) => {
-    return {
-      episode_id: movie.episode_id,
-      title: movie.title,
-      release_year: new Date(movie.release_date).getFullYear(),
-    };
-  });
 export const StoreProvider = ({ children }) => {
   const localStorageMovies = localStorage.getItem('storedMovies')
     ? JSON.parse(localStorage.getItem('storedMovies'))
@@ -46,12 +39,23 @@ export const StoreProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  /**
+   * Function that handles the sorting of the movies
+   * @param sortBy  {String} identifier of the sorting type by which the movies will be sorted
+   */
+  const handleSort = (sortBy) => {
+    setMovies((prevMovies) => {
+      return sortFunc([...prevMovies], sortBy);
+    });
+  };
+
   const store = {
     movies,
     setMovies,
     errorMessage,
     setErrorMessage,
     loading,
+    handleSort,
   };
 
   return (

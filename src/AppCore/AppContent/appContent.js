@@ -4,6 +4,8 @@ import MovieList from '../../Features/MovieList/movieList';
 import MovieDetails from '../../Features/MovieDetails/movieDetails';
 import { ContentLayout, ContentSection } from '../app_style';
 import { useWindowSize } from './common/utils';
+import MovieSortFilterBar from '../../Features/MovieFilterBar/movieSortFilterBar';
+import { BASE_PATH, MOVIE_PATH } from './common/constants';
 
 /**
  * Main component that renders the application views depending on window size
@@ -23,22 +25,27 @@ const AppContent = () => {
   };
 
   return (
-    <ContentLayout>
-      {!isMobile ? <MovieList onMovieSelect={handleMovieSelect} /> : null}
-      <Routes>
-        {isMobile ? (
+    <React.Fragment>
+      {!isMobile || window.location.pathname === BASE_PATH ? (
+        <MovieSortFilterBar />
+      ) : null}
+      <ContentLayout>
+        {!isMobile ? <MovieList onMovieSelect={handleMovieSelect} /> : null}
+        <Routes>
+          {isMobile ? (
+            <Route
+              path={BASE_PATH}
+              element={<MovieList onMovieSelect={handleMovieSelect} />}
+            />
+          ) : null}
           <Route
-            path="/"
-            element={<MovieList onMovieSelect={handleMovieSelect} />}
+            path={BASE_PATH}
+            element={<ContentSection>Select a Movie</ContentSection>}
           />
-        ) : null}
-        <Route
-          path="/"
-          element={<ContentSection>Select a Movie</ContentSection>}
-        />
-        <Route path="movie/:id" element={<MovieDetails />} />
-      </Routes>
-    </ContentLayout>
+          <Route path={MOVIE_PATH} element={<MovieDetails />} />
+        </Routes>
+      </ContentLayout>
+    </React.Fragment>
   );
 };
 
