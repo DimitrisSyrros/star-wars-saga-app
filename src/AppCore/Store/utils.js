@@ -31,7 +31,9 @@ export const filterFunc = (filterBy) => {
     ? JSON.parse(localStorage.getItem('storedMovies'))
     : [];
   return filterBy
-    ? localStorageMovies.filter((movie) => movie.title.includes(filterBy))
+    ? localStorageMovies.filter((movie) =>
+        movie.title.toLowerCase().includes(filterBy.toLowerCase())
+      )
     : localStorageMovies;
 };
 

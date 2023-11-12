@@ -11,7 +11,7 @@ const MovieSortFilterBar = () => {
   const { filterMovies, loading } = useContext(StoreContext);
   const optimizeDebounce = useCallback(
     (value) => debounce(filterMovies(value), 500),
-    []
+    [filterMovies]
   );
   return (
     <MovieSortFilterContainer>

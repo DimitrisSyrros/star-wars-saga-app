@@ -37,7 +37,7 @@ export const StoreProvider = ({ children }) => {
     };
 
     fetchData();
-  }, []);
+  }, [localStorageMovies]);
 
   /**
    * Function that handles the sorting of the movies
