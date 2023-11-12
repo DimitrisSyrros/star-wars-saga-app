@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import apiService from '../Api/movieApi';
-import { filterFunc, simplifyResults, sortFunc } from './utils';
+import { debounce, filterFunc, simplifyResults, sortFunc } from './utils';
 
 export const StoreContext = createContext(null);
 
@@ -9,10 +9,13 @@ export const StoreProvider = ({ children }) => {
   const localStorageMovies = localStorage.getItem('storedMovies')
     ? JSON.parse(localStorage.getItem('storedMovies'))
     : null;
+  const movieDetailsFetched =
+    localStorage.getItem('movieDetailsFetched') === 'true';
 
   const [movies, setMovies] = useState(localStorageMovies);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(!localStorageMovies);
+  const [detailsLoading, setDetailsLoading] = useState(!movieDetailsFetched);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +32,9 @@ export const StoreProvider = ({ children }) => {
             JSON.stringify(simplifiedResults)
           );
         } catch (error) {
-          setErrorMessage(error.message);
+          setErrorMessage(
+            'Something went wrong while trying to fetch the star wars movies.'
+          );
         } finally {
           setLoading(false);
         }
@@ -38,6 +43,32 @@ export const StoreProvider = ({ children }) => {
 
     fetchData();
   }, [localStorageMovies]);
+
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      if (movies && !movieDetailsFetched) {
+        setDetailsLoading(true);
+        try {
+          const detailsPromises = movies.map((movie) => {
+            return apiService.fetchData(
+              `https://www.omdbapi.com/?t=${movie.title}&apikey=4bc82468&y=${movie.release_year}&plot=full`
+            );
+          });
+          const details = await Promise.all(detailsPromises);
+
+          console.log('DETAILS', details);
+        } catch (error) {
+          setErrorMessage(
+            'Something went wrong while trying to fetch movie details.'
+          );
+        } finally {
+          setDetailsLoading(false);
+        }
+      }
+    };
+
+    fetchMovieDetails();
+  }, [movieDetailsFetched]);
 
   /**
    * Function that handles the sorting of the movies
@@ -55,14 +86,23 @@ export const StoreProvider = ({ children }) => {
     });
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedFilterMovies = useCallback(
+    debounce((value) => {
+      filterMovies(value);
+    }, 250),
+    []
+  );
+
   const store = {
     movies,
     setMovies,
     errorMessage,
     setErrorMessage,
     loading,
+    detailsLoading,
     handleSort,
-    filterMovies,
+    debouncedFilterMovies,
   };
 
   return (

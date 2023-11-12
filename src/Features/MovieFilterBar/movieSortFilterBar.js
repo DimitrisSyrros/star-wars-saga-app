@@ -3,16 +3,11 @@ import {
   MovieFilterInput,
 } from './movieSortFilterBar_style';
 import MovieSorter from './movieSorter';
-import { useCallback, useContext } from 'react';
-import { debounce } from '../../AppCore/Store/utils';
+import { useContext } from 'react';
 import { StoreContext } from '../../AppCore/Store/store';
 
 const MovieSortFilterBar = () => {
-  const { filterMovies, loading } = useContext(StoreContext);
-  const optimizeDebounce = useCallback(
-    (value) => debounce(filterMovies(value), 500),
-    [filterMovies]
-  );
+  const { debouncedFilterMovies, loading } = useContext(StoreContext);
   return (
     <MovieSortFilterContainer>
       <MovieSorter disabled={loading} />
@@ -22,7 +17,7 @@ const MovieSortFilterBar = () => {
         placeholder="Filter by movie name..."
         autoComplete="off"
         disabled={loading}
-        onChange={(e) => optimizeDebounce(e.target.value)}
+        onChange={(e) => debouncedFilterMovies(e.target.value)}
       />
     </MovieSortFilterContainer>
   );
