@@ -25,3 +25,35 @@ export const sortFunc = (movies, sortBy) => {
     return movies.sort((a, b) => b[byField] - a[byField]);
   }
 };
+
+export const filterFunc = (filterBy) => {
+  const localStorageMovies = localStorage.getItem('storedMovies')
+    ? JSON.parse(localStorage.getItem('storedMovies'))
+    : [];
+  return filterBy
+    ? localStorageMovies.filter((movie) => movie.title.includes(filterBy))
+    : localStorageMovies;
+};
+
+/**
+ * Function that limits the rate of execution of a particular function as it forces
+ * the function to wait a certain amount of time before running again
+ * Because the debounce function returns a new function on every rendering it should be used along with the
+ * useCallback effect. e.g. useCallback(debounce(handleChange), [])
+ *
+ * @param {Function} func   the function which you want to debounce
+ * @param {Number} timeout  the amount of time (ms) the function needs to wait before running again
+ * @returns {function(...[*]=): void}
+ */
+export const debounce = (func, timeout) => {
+  let timer;
+  // eslint-disable-next-line func-names
+  return function (...args) {
+    const context = this;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = null;
+      func.apply(context, args);
+    }, timeout);
+  };
+};

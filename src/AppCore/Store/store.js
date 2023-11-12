@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import apiService from '../Api/movieApi';
-import { simplifyResults, sortFunc } from './utils';
+import { filterFunc, simplifyResults, sortFunc } from './utils';
 
 export const StoreContext = createContext(null);
 
@@ -49,6 +49,12 @@ export const StoreProvider = ({ children }) => {
     });
   };
 
+  const filterMovies = (filterBy) => {
+    setMovies(() => {
+      return filterFunc(filterBy);
+    });
+  };
+
   const store = {
     movies,
     setMovies,
@@ -56,6 +62,7 @@ export const StoreProvider = ({ children }) => {
     setErrorMessage,
     loading,
     handleSort,
+    filterMovies,
   };
 
   return (

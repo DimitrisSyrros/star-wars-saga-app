@@ -1,11 +1,16 @@
 import { SortBySelect } from './movieSorter_style';
 import { useContext } from 'react';
 import { StoreContext } from '../../AppCore/Store/store';
+import PropTypes from 'prop-types';
 
-const MovieSorter = () => {
+const MovieSorter = ({ disabled }) => {
   const { handleSort } = useContext(StoreContext);
   return (
-    <SortBySelect defaultValue="" onChange={(e) => handleSort(e.target.value)}>
+    <SortBySelect
+      defaultValue=""
+      disabled={disabled}
+      onChange={(e) => handleSort(e.target.value)}
+    >
       <option value="" disabled hidden>
         Sort movies...
       </option>
@@ -17,4 +22,7 @@ const MovieSorter = () => {
   );
 };
 
+MovieSorter.propTypes = {
+  disabled: PropTypes.bool,
+};
 export default MovieSorter;
