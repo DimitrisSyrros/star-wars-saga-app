@@ -6,10 +6,11 @@ export const MovieSortFilterContainer = styled.div`
   align-items: center; /* Center children vertically */
   width: 100%;
   height: 50px;
-  background: #333;
+  background: #dedbdb;
   color: white;
   padding: 10px;
   box-sizing: border-box;
+  border-radius: 5px;
 `;
 
 export const MovieFilterInput = styled.input`

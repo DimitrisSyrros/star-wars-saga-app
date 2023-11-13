@@ -6,7 +6,7 @@
 export const simplifyResults = (results) =>
   results.map((movie) => {
     return {
-      episode_id: movie.episode_id,
+      episode_id: String(movie.episode_id),
       title: movie.title,
       release_date: movie.release_date,
       release_year: new Date(movie.release_date).getFullYear(),
@@ -99,6 +99,7 @@ export const moviesEnrichFunction = (movies, detailsPerMovie) => {
         plot: match.Plot,
         director: match.Director,
         ratings: percentileRatings,
+        poster: match.Poster,
       };
     }
     return movie;

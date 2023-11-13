@@ -1,4 +1,5 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import { shimmer } from '../../AppCore/app_style';
 
 export const Row = styled.div`
   display: flex;
@@ -35,15 +36,6 @@ export const MovieTitle = styled.div`
 export const MovieReleaseDate = styled.div`
   width: fit-content;
   text-align: right;
-`;
-
-const shimmer = keyframes`
-  0% {
-    background-position: -468px 0;
-  }
-  100% {
-    background-position: 468px 0;
-  }
 `;
 
 export const SkeletonRow = styled.div`

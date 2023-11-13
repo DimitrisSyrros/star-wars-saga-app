@@ -1,13 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { ContentSection } from '../../AppCore/app_style';
+import { useParams } from 'react-router-dom';
+import { StoreContext } from '../../AppCore/Store/store';
+import {
+  MovieDetailsContainer,
+  MovieDetailsPlot,
+  MovieDetailsDirector,
+  MovieDetailsInfo,
+  MovieDetailsTitle,
+} from './movieDetails_style';
+import MoviePoster from './moviePoster';
 
 const MovieDetails = () => {
-  // Fetch and display the details of the movie based on movieId
+  const { movieSelector } = useContext(StoreContext);
+  const { episodeId } = useParams();
+  const selectedMovie = movieSelector(episodeId);
   return (
-    <ContentSection>
-      {/* Details content goes here */}
-      Movie Details for: something
-    </ContentSection>
+    <React.Fragment>
+      {selectedMovie ? (
+        <ContentSection>
+          <MovieDetailsContainer>
+            <MovieDetailsTitle>{selectedMovie.title}</MovieDetailsTitle>
+            <MovieDetailsInfo>
+              <MoviePoster
+                src={selectedMovie.poster}
+                alt={`${selectedMovie.title} movie poster`}
+                width="200px"
+                height="300px"
+              />
+              <MovieDetailsPlot>{selectedMovie.plot}</MovieDetailsPlot>
+            </MovieDetailsInfo>
+            <MovieDetailsDirector>{`Director: ${selectedMovie.director}`}</MovieDetailsDirector>
+          </MovieDetailsContainer>
+        </ContentSection>
+      ) : null}
+    </React.Fragment>
   );
 };
 

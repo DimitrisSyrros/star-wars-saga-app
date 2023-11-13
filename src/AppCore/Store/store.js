@@ -110,6 +110,9 @@ export const StoreProvider = ({ children }) => {
     };
   }, [debouncedFilterMovies]);
 
+  const movieSelector = (episodeId) =>
+    movies ? movies.find((movie) => movie.episode_id === episodeId) : {};
+
   const store = {
     movies,
     setMovies,
@@ -119,6 +122,7 @@ export const StoreProvider = ({ children }) => {
     detailsLoading,
     handleSort,
     debouncedFilterMovies,
+    movieSelector,
   };
 
   return (

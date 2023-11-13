@@ -20,8 +20,8 @@ const AppContent = () => {
   const isMobile = size < 768;
   const navigate = useNavigate();
 
-  const handleMovieSelect = (id) => {
-    navigate(`/movie/${id}`);
+  const handleMovieSelect = (episodeId) => {
+    navigate(`/movie/${episodeId}`);
   };
 
   return (
