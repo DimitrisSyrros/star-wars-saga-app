@@ -57,7 +57,7 @@ export const StoreProvider = ({ children }) => {
         try {
           const detailsPromises = movies.map((movie) => {
             return apiService.fetchData(
-              `https://www.omdbapi.com/?t=${movie.title}&apikey=4bc82468&y=${movie.release_year}&plot=full`
+              `https://www.omdbapi.com/?t=${movie.title}&apikey=${process.env.REACT_APP_OMDB_API_KEY}&y=${movie.release_year}&plot=full`
             );
           });
           const details = await Promise.all(detailsPromises);
