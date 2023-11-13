@@ -32,8 +32,8 @@ export const MovieTitle = styled.div`
   flex: 1;
 `;
 
-export const MovieYear = styled.div`
-  width: 60px;
+export const MovieReleaseDate = styled.div`
+  width: fit-content;
   text-align: right;
 `;
 

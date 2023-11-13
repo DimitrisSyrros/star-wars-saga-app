@@ -5,7 +5,7 @@ import {
   ListContainer,
   MovieTitle,
   MovieEpisode,
-  MovieYear,
+  MovieReleaseDate,
   SkeletonMovieEpisode,
   SkeletonMovieTitle,
   SkeletonMovieYear,
@@ -31,14 +31,9 @@ const MovieList = () => {
             {movies
               ? movies.map((movie) => (
                   <Row key={movie.episode_id}>
-                    <MovieEpisode>EPISODE: {movie.episode_id}</MovieEpisode>
+                    <MovieEpisode>EPISODE {movie.episode_id}</MovieEpisode>
                     <MovieTitle>{movie.title}</MovieTitle>
-                    {/*{ratingsLoading ? (*/}
-                    {/*  <SkeletonMovieRatings />*/}
-                    {/*) : (*/}
-                    {/*  <MovieRatings ratings={movie.ratings} />*/}
-                    {/*)}*/}
-                    <MovieYear>{movie.release_year}</MovieYear>
+                    <MovieReleaseDate>{movie.release_date}</MovieReleaseDate>
                   </Row>
                 ))
               : null}

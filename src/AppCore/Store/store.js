@@ -1,7 +1,13 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import apiService from '../Api/movieApi';
-import { debounce, filterFunc, simplifyResults, sortFunc } from './utils';
+import {
+  debounce,
+  filterFunc,
+  moviesEnrichFunction,
+  simplifyResults,
+  sortFunc,
+} from './utils';
 
 export const StoreContext = createContext(null);
 
@@ -56,7 +62,11 @@ export const StoreProvider = ({ children }) => {
           });
           const details = await Promise.all(detailsPromises);
 
-          console.log('DETAILS', details);
+          const enrichedMovies = moviesEnrichFunction(movies, details);
+          setMovies(enrichedMovies);
+          localStorage.setItem('storedMovies', JSON.stringify(enrichedMovies));
+          localStorage.setItem('movieDetailsFetched', 'true');
+          setDetailsLoading(false);
         } catch (error) {
           setErrorMessage(
             'Something went wrong while trying to fetch movie details.'
@@ -68,7 +78,7 @@ export const StoreProvider = ({ children }) => {
     };
 
     fetchMovieDetails();
-  }, [movieDetailsFetched]);
+  }, [movieDetailsFetched, movies]);
 
   /**
    * Function that handles the sorting of the movies
@@ -93,6 +103,12 @@ export const StoreProvider = ({ children }) => {
     }, 250),
     []
   );
+
+  useEffect(() => {
+    return () => {
+      debouncedFilterMovies.cancel();
+    };
+  }, [debouncedFilterMovies]);
 
   const store = {
     movies,

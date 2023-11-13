@@ -8,6 +8,7 @@ export const simplifyResults = (results) =>
     return {
       episode_id: movie.episode_id,
       title: movie.title,
+      release_date: movie.release_date,
       release_year: new Date(movie.release_date).getFullYear(),
     };
   });
@@ -49,8 +50,7 @@ export const filterFunc = (filterBy) => {
  */
 export const debounce = (func, timeout) => {
   let timer;
-  // eslint-disable-next-line func-names
-  return function (...args) {
+  const debouncedFunction = function (...args) {
     const context = this;
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
@@ -58,4 +58,49 @@ export const debounce = (func, timeout) => {
       func.apply(context, args);
     }, timeout);
   };
+  debouncedFunction.cancel = function () {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  };
+  return debouncedFunction;
+};
+
+export const percentileConvertor = (rating) => {
+  if (rating.includes('%')) {
+    return parseFloat(rating);
+  } else {
+    const [score, outOf] = rating.split('/');
+    return (parseFloat(score) / parseFloat(outOf)) * 100;
+  }
+};
+
+export const averageRatingCalculator = (ratings) => {
+  const total = ratings.reduce((acc, curr) => acc + curr.value, 0);
+  return Math.round(total / ratings.length);
+};
+
+export const moviesEnrichFunction = (movies, detailsPerMovie) => {
+  return movies.map((movie) => {
+    const match = detailsPerMovie.find((item) =>
+      item.Title.includes(movie.title)
+    );
+    if (match) {
+      const percentileRatings = match.Ratings.map((rating) => ({
+        source: rating.Source,
+        value: percentileConvertor(rating.Value),
+      }));
+      const avg = averageRatingCalculator(percentileRatings);
+      percentileRatings.push({ source: 'Average', value: avg });
+      return {
+        ...movie,
+        title: match.Title.split(':')[1],
+        plot: match.Plot,
+        director: match.Director,
+        ratings: percentileRatings,
+      };
+    }
+    return movie;
+  });
 };
