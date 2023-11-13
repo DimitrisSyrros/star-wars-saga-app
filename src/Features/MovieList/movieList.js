@@ -13,9 +13,10 @@ import {
 import { ContentSection } from '../../AppCore/app_style';
 import { StoreContext } from '../../AppCore/Store/store';
 import PropTypes from 'prop-types';
+import StarRating from '../StarRating/starRating';
 
 const MovieList = ({ onMovieSelect }) => {
-  const { movies, loading } = useContext(StoreContext);
+  const { movies, loading, detailsLoading } = useContext(StoreContext);
   return (
     <ContentSection>
       <ListContainer>
@@ -32,12 +33,18 @@ const MovieList = ({ onMovieSelect }) => {
             {movies
               ? movies.map((movie) => (
                   <Row
-                    key={movie.episode_id}
+                    key={`${movie.episode_id}_${movie.title}`}
                     role="button"
                     onClick={() => onMovieSelect(movie.episode_id)}
                   >
                     <MovieEpisode>EPISODE {movie.episode_id}</MovieEpisode>
                     <MovieTitle>{movie.title}</MovieTitle>
+                    {!detailsLoading && (
+                      <StarRating
+                        keyPrefix={`${movie.episode_id}_${movie.title}`}
+                        starCount={movie.ratingAverage}
+                      />
+                    )}
                     <MovieReleaseDate>{movie.release_date}</MovieReleaseDate>
                   </Row>
                 ))

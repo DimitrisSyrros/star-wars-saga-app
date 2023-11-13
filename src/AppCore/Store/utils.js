@@ -78,7 +78,8 @@ export const percentileConvertor = (rating) => {
 
 export const averageRatingCalculator = (ratings) => {
   const total = ratings.reduce((acc, curr) => acc + curr.value, 0);
-  return Math.round(total / ratings.length);
+  const ratingPercentile = Math.round(total / ratings.length);
+  return (ratingPercentile / 100) * 10;
 };
 
 export const moviesEnrichFunction = (movies, detailsPerMovie) => {
@@ -92,13 +93,13 @@ export const moviesEnrichFunction = (movies, detailsPerMovie) => {
         value: percentileConvertor(rating.Value),
       }));
       const avg = averageRatingCalculator(percentileRatings);
-      percentileRatings.push({ source: 'Average', value: avg });
       return {
         ...movie,
         title: match.Title.split(':')[1],
         plot: match.Plot,
         director: match.Director,
         ratings: percentileRatings,
+        ratingAverage: avg,
         poster: match.Poster,
       };
     }

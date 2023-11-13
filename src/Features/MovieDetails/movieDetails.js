@@ -8,11 +8,17 @@ import {
   MovieDetailsDirector,
   MovieDetailsInfo,
   MovieDetailsTitle,
+  MovieDetailsAvgRatingSection,
+  OtherRatingsSection,
+  OtherRating,
 } from './movieDetails_style';
 import MoviePoster from './moviePoster';
+import StarRating from '../StarRating/starRating';
+
+const AVERAGE_RATING = 'Average rating: ';
 
 const MovieDetails = () => {
-  const { movieSelector } = useContext(StoreContext);
+  const { movieSelector, detailsLoading } = useContext(StoreContext);
   const { episodeId } = useParams();
   const selectedMovie = movieSelector(episodeId);
   return (
@@ -31,6 +37,24 @@ const MovieDetails = () => {
               <MovieDetailsPlot>{selectedMovie.plot}</MovieDetailsPlot>
             </MovieDetailsInfo>
             <MovieDetailsDirector>{`Director: ${selectedMovie.director}`}</MovieDetailsDirector>
+            <MovieDetailsAvgRatingSection>
+              <span>{AVERAGE_RATING}</span>
+              {!detailsLoading ? (
+                <StarRating
+                  keyPrefix={`Details_${selectedMovie.episode_id}_${selectedMovie.title}`}
+                  starCount={selectedMovie.ratingAverage}
+                />
+              ) : null}
+            </MovieDetailsAvgRatingSection>
+            <OtherRatingsSection>
+              {selectedMovie.ratings
+                ? selectedMovie.ratings.map((rating) => (
+                    <OtherRating
+                      key={`${rating.source}_${rating.value}`}
+                    >{`${rating.source}: ${rating.value}%`}</OtherRating>
+                  ))
+                : null}
+            </OtherRatingsSection>
           </MovieDetailsContainer>
         </ContentSection>
       ) : null}

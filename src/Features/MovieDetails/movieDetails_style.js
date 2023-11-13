@@ -29,4 +29,24 @@ export const MovieDetailsPlot = styled.p`
 
 export const MovieDetailsDirector = styled.p`
   font-size: 1rem;
+  margin: 0;
+`;
+
+export const MovieDetailsAvgRatingSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const OtherRatingsSection = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const OtherRating = styled.span`
+  color: #0077d9ff;
+  margin-right: 1.1rem;
+  border-radius: 20px;
+  border: 1px #0077d9ff solid;
+  padding: 0.3rem;
 `;
