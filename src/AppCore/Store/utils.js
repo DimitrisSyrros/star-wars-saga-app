@@ -72,7 +72,7 @@ export const percentileConvertor = (rating) => {
     return parseFloat(rating);
   } else {
     const [score, outOf] = rating.split('/');
-    return (parseFloat(score) / parseFloat(outOf)) * 100;
+    return Math.round((parseFloat(score) / parseFloat(outOf)) * 100);
   }
 };
 
