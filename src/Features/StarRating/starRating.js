@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StarEmpty, StarFull, StarRatingContainer } from './starRating_style';
 
 const convertToStarCounts = (starCount) => {
-  const fullStars = Math.round(starCount); // Round to the nearest whole number
+  const fullStars = Math.round(starCount);
   const emptyStars = 10 - fullStars;
   return { fullStars, emptyStars };
 };

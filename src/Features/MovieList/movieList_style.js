@@ -71,7 +71,7 @@ export const SkeletonMovieTitle = styled.div`
 `;
 
 export const SkeletonMovieYear = styled.div`
-  width: 60px;
+  width: fit-content;
   background: #f6f7f8;
   height: 20px;
 `;
