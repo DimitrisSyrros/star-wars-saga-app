@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import MovieList from '../../Features/MovieList/movieList';
 import MovieDetails from '../../Features/MovieDetails/movieDetails';
@@ -21,6 +21,26 @@ const AppContent = () => {
   const size = useWindowSize();
   const isMobile = size < 768;
   const navigate = useNavigate();
+
+  /**
+   * This hook clears the cached data every 6 hours
+   */
+  useEffect(() => {
+    const clearCache = () => {
+      localStorage.clear();
+    };
+    const lastFetchedTime = localStorage.getItem('lastFetchedTime');
+
+    if (lastFetchedTime) {
+      const now = new Date();
+      const lastFetchedDate = new Date(parseInt(lastFetchedTime));
+      // const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
+      const tenMinutesInMilliseconds = 10 * 60 * 1000;
+      if (now - lastFetchedDate > tenMinutesInMilliseconds) {
+        clearCache();
+      }
+    }
+  }, []);
 
   /**
    * This function utilizing the episode id of a selected movie navigates to the movie's path

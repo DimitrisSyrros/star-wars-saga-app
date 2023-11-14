@@ -48,6 +48,7 @@ export const StoreProvider = ({ children }) => {
             'storedMovies',
             JSON.stringify(simplifiedResults)
           );
+          localStorage.setItem('lastFetchedTime', Date.now().toString());
         } catch (error) {
           setErrorMessage(
             'Something went wrong while trying to fetch the star wars movies. Please reload the page or try again later.'
