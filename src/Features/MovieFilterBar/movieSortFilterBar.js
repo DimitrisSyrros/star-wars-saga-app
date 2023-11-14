@@ -8,15 +8,28 @@ import { useContext, useState } from 'react';
 import { StoreContext } from '../../AppCore/Store/store';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Component that renders search input for filtering and a sort by select
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const MovieSortFilterBar = () => {
   const [inputValue, setInputValue] = useState('');
   const { debouncedFilterMovies, loading } = useContext(StoreContext);
 
+  /**
+   * Calls the debounced filtering mechanism as well as updates the component's state
+   * @param value the current event's target value
+   */
   const handleInputValue = (value) => {
     debouncedFilterMovies(value);
     setInputValue(value);
   };
 
+  /**
+   * Calls the debounced filtering mechanism with empty string
+   * to clear the filtering on the MovieList component and updates the component state accordingly
+   */
   const clearInputValue = () => {
     debouncedFilterMovies('');
     setInputValue('');

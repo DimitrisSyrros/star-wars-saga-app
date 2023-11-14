@@ -3,6 +3,13 @@ import { useContext } from 'react';
 import { StoreContext } from '../../AppCore/Store/store';
 import PropTypes from 'prop-types';
 
+/**
+ * A simple select that provides filtering options for the user to filter
+ * the movielist by
+ * @param disabled  {Boolean} indicates when the sort by should be disabled
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const MovieSorter = ({ disabled }) => {
   const { handleSort } = useContext(StoreContext);
   return (

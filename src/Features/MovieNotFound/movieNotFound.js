@@ -3,6 +3,13 @@ import { MovieNotFoundTitle } from './movieNotFound_style';
 import { Link } from 'react-router-dom';
 import { BASE_PATH } from '../../AppCore/AppContent/common/constants';
 
+/**
+ * Renders a simple informative message that the movie details where not found
+ * and since it's rendered ony on mobile view a Link that redirects you
+ * to the movielist view
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const MovieNotFound = () => (
   <ContentSection>
     <MovieNotFoundTitle>

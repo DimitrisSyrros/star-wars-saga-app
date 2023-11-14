@@ -6,7 +6,8 @@ import { ContentLayout } from '../app_style';
 import { useWindowSize } from './common/utils';
 import MovieSortFilterBar from '../../Features/MovieFilterBar/movieSortFilterBar';
 import { BASE_PATH, MOVIE_PATH } from './common/constants';
-import SelectMovieView from './selectMovieView';
+import SelectMovieView from '../../Features/SelectMovieView/selectMovieView';
+import ErrorModal from '../../Features/ErrorModal/errorModal';
 
 /**
  * Main component that renders the application views depending on window size
@@ -21,6 +22,10 @@ const AppContent = () => {
   const isMobile = size < 768;
   const navigate = useNavigate();
 
+  /**
+   * This function utilizing the episode id of a selected movie navigates to the movie's path
+   * @param episodeId {String} identifier of the movie
+   */
   const handleMovieSelect = (episodeId) => {
     navigate(`/movie/${episodeId}`);
   };
@@ -46,6 +51,7 @@ const AppContent = () => {
           />
         </Routes>
       </ContentLayout>
+      <ErrorModal />
     </React.Fragment>
   );
 };

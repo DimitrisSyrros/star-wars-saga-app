@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+/**
+ * An API service to perform GET requests and return data from a given URL.
+ */
 const apiService = {
   fetchData: async (url) => {
     try {

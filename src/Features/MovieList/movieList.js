@@ -15,6 +15,13 @@ import { StoreContext } from '../../AppCore/Store/store';
 import PropTypes from 'prop-types';
 import StarRating from '../StarRating/starRating';
 
+/**
+ * Component that renders the available movie list
+ * When loading renders a skeleton in place of the movies
+ * @param onMovieSelect {Function} it handles the movie selection
+ * @returns {Element}
+ * @constructor
+ */
 const MovieList = ({ onMovieSelect }) => {
   const { movies, loading, detailsLoading } = useContext(StoreContext);
   return (
@@ -39,12 +46,12 @@ const MovieList = ({ onMovieSelect }) => {
                   >
                     <MovieEpisode>EPISODE {movie.episode_id}</MovieEpisode>
                     <MovieTitle>{movie.title}</MovieTitle>
-                    {!detailsLoading && (
+                    {!detailsLoading ? (
                       <StarRating
                         keyPrefix={`${movie.episode_id}_${movie.title}`}
                         starCount={movie.ratingAverage}
                       />
-                    )}
+                    ) : null}
                     <MovieReleaseDate>{movie.release_date}</MovieReleaseDate>
                   </Row>
                 ))

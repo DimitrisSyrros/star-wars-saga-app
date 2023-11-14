@@ -20,6 +20,17 @@ import PropTypes from 'prop-types';
 
 const AVERAGE_RATING = 'Average rating: ';
 
+/**
+ * The movie details component renders all the details of a movie
+ * If the view is on mobile then renders a Link to movieList
+ * While movie details are being fetched detailsLoading is true
+ * and a skeleton of the ui is rendered instead of the actual data
+ * In case the selected movie is not found then the MovieNotFound
+ * component is rendered instead of the details
+ * @param isMobile  {Boolean} defines whether the view is a mobile view or a desktop view
+ * @returns {Element}
+ * @constructor
+ */
 const MovieDetails = ({ isMobile }) => {
   const { movieSelector, detailsLoading } = useContext(StoreContext);
   const { episodeId } = useParams();
