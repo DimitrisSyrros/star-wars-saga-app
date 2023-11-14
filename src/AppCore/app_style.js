@@ -1,7 +1,7 @@
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-  body {
+  body, input, select, button, textarea, option {
     font-family: 'Kanit', sans-serif;
     margin: 0;
     padding: 0;

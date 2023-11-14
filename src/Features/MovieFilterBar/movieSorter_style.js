@@ -8,7 +8,6 @@ export const SortBySelect = styled.select`
   cursor: pointer;
   outline: none;
   background-color: #f8f8f8;
-  font-size: 14px;
   text-align: center;
   text-align-last: center;
 `;

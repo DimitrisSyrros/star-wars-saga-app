@@ -21,3 +21,26 @@ export const MovieFilterInput = styled.input`
   border-radius: 5px;
   outline: none;
 `;
+
+export const ClearFilterButton = styled.button`
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e6e6e6;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #007bff;
+  }
+
+  &:active {
+    background-color: #d4d4d4;
+  }
+`;

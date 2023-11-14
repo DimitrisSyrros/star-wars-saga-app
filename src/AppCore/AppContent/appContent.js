@@ -2,10 +2,11 @@ import React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import MovieList from '../../Features/MovieList/movieList';
 import MovieDetails from '../../Features/MovieDetails/movieDetails';
-import { ContentLayout, ContentSection } from '../app_style';
+import { ContentLayout } from '../app_style';
 import { useWindowSize } from './common/utils';
 import MovieSortFilterBar from '../../Features/MovieFilterBar/movieSortFilterBar';
 import { BASE_PATH, MOVIE_PATH } from './common/constants';
+import SelectMovieView from './selectMovieView';
 
 /**
  * Main component that renders the application views depending on window size
@@ -38,11 +39,11 @@ const AppContent = () => {
               element={<MovieList onMovieSelect={handleMovieSelect} />}
             />
           ) : null}
+          <Route path={BASE_PATH} element={<SelectMovieView />} />
           <Route
-            path={BASE_PATH}
-            element={<ContentSection>Select a Movie</ContentSection>}
+            path={MOVIE_PATH}
+            element={<MovieDetails isMobile={isMobile} />}
           />
-          <Route path={MOVIE_PATH} element={<MovieDetails />} />
         </Routes>
       </ContentLayout>
     </React.Fragment>

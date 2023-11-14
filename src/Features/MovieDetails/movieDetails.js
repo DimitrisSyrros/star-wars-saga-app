@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ContentSection } from '../../AppCore/app_style';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { StoreContext } from '../../AppCore/Store/store';
 import {
   MovieDetailsContainer,
@@ -14,10 +14,13 @@ import {
 } from './movieDetails_style';
 import MoviePoster from './moviePoster';
 import StarRating from '../StarRating/starRating';
+import MovieNotFound from './movieNotFound';
+import { BASE_PATH } from '../../AppCore/AppContent/common/constants';
+import PropTypes from 'prop-types';
 
 const AVERAGE_RATING = 'Average rating: ';
 
-const MovieDetails = () => {
+const MovieDetails = ({ isMobile }) => {
   const { movieSelector, detailsLoading } = useContext(StoreContext);
   const { episodeId } = useParams();
   const selectedMovie = movieSelector(episodeId);
@@ -25,6 +28,7 @@ const MovieDetails = () => {
     <React.Fragment>
       {selectedMovie ? (
         <ContentSection>
+          {isMobile ? <Link to={BASE_PATH}>Go back to MovieList </Link> : null}
           <MovieDetailsContainer>
             <MovieDetailsTitle>{selectedMovie.title}</MovieDetailsTitle>
             <MovieDetailsInfo>
@@ -57,9 +61,14 @@ const MovieDetails = () => {
             </OtherRatingsSection>
           </MovieDetailsContainer>
         </ContentSection>
-      ) : null}
+      ) : (
+        <MovieNotFound />
+      )}
     </React.Fragment>
   );
 };
 
+MovieDetails.propTypes = {
+  isMobile: PropTypes.bool,
+};
 export default MovieDetails;
