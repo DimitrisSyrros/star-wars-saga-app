@@ -16,6 +16,7 @@ export const simplifyResults = (results) =>
 const byFieldResolver = {
   year: 'release_year',
   episode: 'episode_id',
+  rating: 'ratingAverage',
 };
 export const sortFunc = (movies, sortBy) => {
   const parts = sortBy.split('-');

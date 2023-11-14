@@ -18,6 +18,8 @@ const MovieSorter = ({ disabled }) => {
       <option value="year-desc">Year Descending</option>
       <option value="episode-asc">Episode Ascending</option>
       <option value="episode-desc">Episode Descending</option>
+      <option value="rating-asc">Rating Ascending</option>
+      <option value="rating-desc">Rating Descending</option>
     </SortBySelect>
   );
 };
