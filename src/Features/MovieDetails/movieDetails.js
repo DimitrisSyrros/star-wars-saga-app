@@ -12,9 +12,9 @@ import {
   OtherRatingsSection,
   OtherRating,
 } from './movieDetails_style';
-import MoviePoster from './moviePoster';
+import MoviePoster from '../MoviePoster/moviePoster';
 import StarRating from '../StarRating/starRating';
-import MovieNotFound from './movieNotFound';
+import MovieNotFound from '../MovieNotFound/movieNotFound';
 import { BASE_PATH } from '../../AppCore/AppContent/common/constants';
 import PropTypes from 'prop-types';
 

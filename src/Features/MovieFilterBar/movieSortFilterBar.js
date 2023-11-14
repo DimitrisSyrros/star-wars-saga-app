@@ -3,7 +3,7 @@ import {
   MovieFilterInput,
   ClearFilterButton,
 } from './movieSortFilterBar_style';
-import MovieSorter from './movieSorter';
+import MovieSorter from '../MovieSorter/movieSorter';
 import { useContext, useState } from 'react';
 import { StoreContext } from '../../AppCore/Store/store';
 import { useNavigate } from 'react-router-dom';
