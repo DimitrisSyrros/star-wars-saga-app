@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { ImgContainer, SkeletonPoster, StyledImage } from './moviePoster_style';
+import { ImgContainer, StyledImage } from './moviePoster_style';
 
 /**
  * Renders the movie poster
@@ -12,19 +12,9 @@ import { ImgContainer, SkeletonPoster, StyledImage } from './moviePoster_style';
  * @constructor
  */
 const MoviePoster = ({ src, alt, width, height }) => {
-  const [isLoading, setIsLoading] = useState(true);
-
   return (
     <ImgContainer width={width} height={height}>
-      {isLoading && <SkeletonPoster />}
-      <StyledImage
-        src={src}
-        alt={alt}
-        isLoading={isLoading}
-        onLoad={() => setIsLoading(false)}
-        onError={() => setIsLoading(false)}
-        loading="lazy"
-      />
+      <StyledImage src={src} alt={alt} loading="lazy" />
     </ImgContainer>
   );
 };

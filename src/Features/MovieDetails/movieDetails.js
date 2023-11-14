@@ -35,42 +35,46 @@ const MovieDetails = ({ isMobile }) => {
   const { movieSelector, detailsLoading } = useContext(StoreContext);
   const { episodeId } = useParams();
   const selectedMovie = movieSelector(episodeId);
+  const movieDetailsFetched =
+    localStorage.getItem('movieDetailsFetched') === 'true';
   return (
     <React.Fragment>
       {selectedMovie ? (
         <ContentSection>
           {isMobile ? <Link to={BASE_PATH}>Go back to MovieList </Link> : null}
-          <MovieDetailsContainer>
-            <MovieDetailsTitle>{selectedMovie.title}</MovieDetailsTitle>
-            <MovieDetailsInfo>
-              <MoviePoster
-                src={selectedMovie.poster}
-                alt={`${selectedMovie.title} movie poster`}
-                width="200px"
-                height="300px"
-              />
-              <MovieDetailsPlot>{selectedMovie.plot}</MovieDetailsPlot>
-            </MovieDetailsInfo>
-            <MovieDetailsDirector>{`Director: ${selectedMovie.director}`}</MovieDetailsDirector>
-            <MovieDetailsAvgRatingSection>
-              <span>{AVERAGE_RATING}</span>
-              {!detailsLoading ? (
-                <StarRating
-                  keyPrefix={`Details_${selectedMovie.episode_id}_${selectedMovie.title}`}
-                  starCount={selectedMovie.ratingAverage}
+          {movieDetailsFetched ? (
+            <MovieDetailsContainer>
+              <MovieDetailsTitle>{selectedMovie.title}</MovieDetailsTitle>
+              <MovieDetailsInfo>
+                <MoviePoster
+                  src={selectedMovie.poster}
+                  alt={`${selectedMovie.title} movie poster`}
+                  width="200px"
+                  height="300px"
                 />
-              ) : null}
-            </MovieDetailsAvgRatingSection>
-            <OtherRatingsSection>
-              {selectedMovie.ratings
-                ? selectedMovie.ratings.map((rating) => (
-                    <OtherRating
-                      key={`${rating.source}_${rating.value}`}
-                    >{`${rating.source}: ${rating.value}%`}</OtherRating>
-                  ))
-                : null}
-            </OtherRatingsSection>
-          </MovieDetailsContainer>
+                <MovieDetailsPlot>{selectedMovie.plot}</MovieDetailsPlot>
+              </MovieDetailsInfo>
+              <MovieDetailsDirector>{`Director: ${selectedMovie.director}`}</MovieDetailsDirector>
+              <MovieDetailsAvgRatingSection>
+                <span>{AVERAGE_RATING}</span>
+                {!detailsLoading ? (
+                  <StarRating
+                    keyPrefix={`Details_${selectedMovie.episode_id}_${selectedMovie.title}`}
+                    starCount={selectedMovie.ratingAverage}
+                  />
+                ) : null}
+              </MovieDetailsAvgRatingSection>
+              <OtherRatingsSection>
+                {selectedMovie.ratings
+                  ? selectedMovie.ratings.map((rating) => (
+                      <OtherRating
+                        key={`${rating.source}_${rating.value}`}
+                      >{`${rating.source}: ${rating.value}%`}</OtherRating>
+                    ))
+                  : null}
+              </OtherRatingsSection>
+            </MovieDetailsContainer>
+          ) : null}
         </ContentSection>
       ) : (
         <MovieNotFound />

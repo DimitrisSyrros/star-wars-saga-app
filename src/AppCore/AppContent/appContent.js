@@ -34,9 +34,8 @@ const AppContent = () => {
     if (lastFetchedTime) {
       const now = new Date();
       const lastFetchedDate = new Date(parseInt(lastFetchedTime));
-      // const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
-      const tenMinutesInMilliseconds = 10 * 60 * 1000;
-      if (now - lastFetchedDate > tenMinutesInMilliseconds) {
+      const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
+      if (now - lastFetchedDate > sixHoursInMilliseconds) {
         clearCache();
       }
     }
