@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import MovieNotFound from './MovieNotFound';
+import MovieNotFound from './movieNotFound';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('MovieNotFound', () => {

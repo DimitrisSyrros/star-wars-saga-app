@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StoreContext } from '../../AppCore/Store/store';
+import { StoreContext, StoreType } from '../../AppCore/Store/store';
 import { CloseButton, ModalContent, StyledModal } from './errorModal_style';
 
 /**
@@ -7,8 +7,10 @@ import { CloseButton, ModalContent, StyledModal } from './errorModal_style';
  * @returns {Element}
  * @constructor
  */
-const ErrorModal = () => {
-  const { errorMessage, setErrorMessage } = useContext(StoreContext);
+const ErrorModal = (): React.JSX.Element => {
+  const { errorMessage, setErrorMessage } = useContext(
+    StoreContext
+  ) as StoreType;
   const showModal = errorMessage !== '';
 
   return (

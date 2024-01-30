@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-export const StyledModal = styled.div`
+type StyledModalProps = {
+  show: boolean;
+};
+export const StyledModal = styled.div<StyledModalProps>`
   display: ${(props) => (props.show ? 'block' : 'none')};
   position: fixed;
   z-index: 1;

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const ImgContainer = styled.div`
+type ImgContainerProps = {
+  width: string;
+  height: string;
+};
+export const ImgContainer = styled.div<ImgContainerProps>`
   width: ${(props) => props.width || '200px'};
   height: ${(props) => props.height || '300px'};
   flex-shrink: 0;
@@ -10,7 +14,13 @@ export const ImgContainer = styled.div`
   overflow: hidden;
 `;
 
-export const StyledImage = styled.img`
+type StyledImageProps = {
+  src?: string;
+  alt: string;
+  loading: string;
+};
+
+export const StyledImage = styled.img<StyledImageProps>`
   width: 100%;
   height: 100%;
   object-fit: contain;

@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ImgContainer, StyledImage } from './moviePoster_style';
 
+type MoviePosterProps = {
+  src?: string;
+  alt: string;
+  width: string;
+  height: string;
+};
 /**
  * Renders the movie poster
  * @param src The url source
@@ -11,7 +17,12 @@ import { ImgContainer, StyledImage } from './moviePoster_style';
  * @returns {Element}
  * @constructor
  */
-const MoviePoster = ({ src, alt, width, height }) => {
+const MoviePoster = ({
+  src,
+  alt,
+  width,
+  height,
+}: MoviePosterProps): React.JSX.Element => {
   return (
     <ImgContainer width={width} height={height}>
       <StyledImage src={src} alt={alt} loading="lazy" />

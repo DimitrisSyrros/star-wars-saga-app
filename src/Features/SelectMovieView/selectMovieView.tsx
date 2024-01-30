@@ -10,7 +10,7 @@ import {
  * @returns {React.JSX.Element}
  * @constructor
  */
-const SelectMovieView = () => (
+const SelectMovieView = (): React.JSX.Element => (
   <ContentSection>
     <MovieSelectContainer>
       <MovieSelectTitle>Select A Movie</MovieSelectTitle>

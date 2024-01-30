@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
  * This hook gets and tracks the width of the window
  * @returns {number}
  */
-export const useWindowSize = () => {
+export const useWindowSize = (): number => {
   const [windowSize, setWindowSize] = useState(window.innerWidth);
 
   /**

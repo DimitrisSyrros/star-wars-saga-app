@@ -1,12 +1,19 @@
+import {
+  DetailsPerMovieType,
+  PercentileRatingsType,
+  SimpleMovieType,
+} from '../genericTypes';
+import { ExportedMovieType } from '../genericTypes';
+
 /**
  * Function that takes in the response from fetching the movies and maps to an array the only pertinent data
  * @param results The results array from the fetch movies call response
- * @returns {*}
+ * @returns SimpleMovieType
  */
-export const simplifyResults = (results) =>
-  results.map((movie) => {
-    return {
-      episode_id: String(movie.episode_id),
+export const simplifyResults = (results: ExportedMovieType[]) =>
+  results.map((movie: ExportedMovieType): SimpleMovieType => {
+    return <SimpleMovieType>{
+      episode_id: movie.episode_id,
       title: movie.title,
       release_date: movie.release_date,
       release_year: new Date(movie.release_date).getFullYear(),
@@ -16,7 +23,7 @@ export const simplifyResults = (results) =>
 /**
  * Resolves the option values with the actual movie values
  */
-const byFieldResolver = {
+const byFieldResolver: { [index: string]: keyof SimpleMovieType } = {
   year: 'release_year',
   episode: 'episode_id',
   rating: 'ratingAverage',
@@ -31,12 +38,20 @@ const byFieldResolver = {
  * what sorting will occur
  * @returns {*}
  */
-export const sortFunc = (movies, sortBy) => {
+
+export const sortFunc = (
+  movies: SimpleMovieType[],
+  sortBy: string
+): SimpleMovieType[] => {
   const parts = sortBy.split('-');
-  const byField = byFieldResolver[parts[0]];
+  const byField: keyof SimpleMovieType = byFieldResolver[parts[0]];
   if (parts[1] === 'asc') {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return movies.sort((a, b) => a[byField] - b[byField]);
   } else {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return movies.sort((a, b) => b[byField] - a[byField]);
   }
 };
@@ -47,12 +62,11 @@ export const sortFunc = (movies, sortBy) => {
  * @param filterBy  The string that is typed in by the user
  * @returns {*[]|any}
  */
-export const filterFunc = (filterBy) => {
-  const localStorageMovies = localStorage.getItem('storedMovies')
-    ? JSON.parse(localStorage.getItem('storedMovies'))
-    : [];
+export const filterFunc = (filterBy: string): SimpleMovieType[] => {
+  const localStorageM = localStorage.getItem('storedMovies');
+  const localStorageMovies = localStorageM ? JSON.parse(localStorageM) : [];
   return filterBy
-    ? localStorageMovies.filter((movie) =>
+    ? localStorageMovies.filter((movie: SimpleMovieType) =>
         movie.title.toLowerCase().includes(filterBy.toLowerCase())
       )
     : localStorageMovies;
@@ -68,9 +82,10 @@ export const filterFunc = (filterBy) => {
  * @param {Number} timeout  the amount of time (ms) the function needs to wait before running again
  * @returns {function(...[*]=): void}
  */
-export const debounce = (func, timeout) => {
-  let timer;
-  const debouncedFunction = function (...args) {
+export const debounce = (func: any, timeout: number) => {
+  let timer: NodeJS.Timeout | null;
+  const debouncedFunction = function (this: any, ...args: any[]) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const context = this;
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
@@ -88,11 +103,11 @@ export const debounce = (func, timeout) => {
 };
 
 /**
- * Function that takes in a rating and returnes the rounded percentile version of it
+ * Function that takes in a rating and returns the rounded percentile version of it
  * @param rating  {String} a movie rating
  * @returns {number}
  */
-export const percentileConvertor = (rating) => {
+export const percentileConvertor = (rating: string): number => {
   if (rating.includes('%')) {
     return Math.round(parseFloat(rating));
   } else {
@@ -106,7 +121,9 @@ export const percentileConvertor = (rating) => {
  * @param ratings The ratings array
  * @returns {number}
  */
-export const averageRatingCalculator = (ratings) => {
+export const averageRatingCalculator = (
+  ratings: PercentileRatingsType[]
+): number => {
   const total = ratings.reduce((acc, curr) => acc + curr.value, 0);
   const ratingPercentile = Math.round(total / ratings.length);
   return (ratingPercentile / 100) * 10;
@@ -120,7 +137,10 @@ export const averageRatingCalculator = (ratings) => {
  * @param detailsPerMovie The details array
  * @returns {*}
  */
-export const moviesEnrichFunction = (movies, detailsPerMovie) => {
+export const moviesEnrichFunction = (
+  movies: SimpleMovieType[],
+  detailsPerMovie: DetailsPerMovieType[]
+): SimpleMovieType[] => {
   return movies.map((movie) => {
     const match = detailsPerMovie.find((item) =>
       item.Title.includes(movie.title)

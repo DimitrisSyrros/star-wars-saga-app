@@ -1,5 +1,10 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+  Dispatch,
+} from 'react';
 import apiService from '../Api/movieApi';
 import {
   debounce,
@@ -8,18 +13,38 @@ import {
   simplifyResults,
   sortFunc,
 } from './utils';
+import { SimpleMovieType } from '../genericTypes';
 
-export const StoreContext = createContext(null);
+export type DebounceFilterMoviesProps = {
+  (value: string): void;
+  cancel: () => void;
+};
+
+export type StoreType = {
+  movies: SimpleMovieType[];
+  setMovies: Dispatch<React.SetStateAction<SimpleMovieType[]>>;
+  errorMessage: string;
+  setErrorMessage: Dispatch<React.SetStateAction<string>>;
+  loading: boolean;
+  detailsLoading: boolean;
+  handleSort: (sortBy: string) => void;
+  debouncedFilterMovies: DebounceFilterMoviesProps;
+  movieSelector: (episodeId: string) => SimpleMovieType;
+};
+export const StoreContext = createContext<StoreType | null>(null);
+
+type StoreProviderProps = {
+  children: React.JSX.Element;
+};
 
 /**
  * Provides a React context for storing and managing the state of movies,
  * including fetching, sorting, filtering, and selecting movies.
  * It also manages loading states and error messages, with state persistence through localStorage.
  */
-export const StoreProvider = ({ children }) => {
-  const localStorageMovies = localStorage.getItem('storedMovies')
-    ? JSON.parse(localStorage.getItem('storedMovies'))
-    : null;
+export const StoreProvider = ({ children }: StoreProviderProps) => {
+  const localStorageM = localStorage.getItem('storedMovies');
+  const localStorageMovies = localStorageM ? JSON.parse(localStorageM) : null;
   const movieDetailsFetched =
     localStorage.getItem('movieDetailsFetched') === 'true';
 
@@ -75,7 +100,7 @@ export const StoreProvider = ({ children }) => {
       if (movies && !movieDetailsFetched) {
         setDetailsLoading(true);
         try {
-          const detailsPromises = movies.map((movie) => {
+          const detailsPromises = movies.map((movie: SimpleMovieType) => {
             return apiService.fetchData(
               `https://www.omdbapi.com/?t=${movie.title}&apikey=${process.env.REACT_APP_OMDB_API_KEY}&y=${movie.release_year}&plot=full`
             );
@@ -104,8 +129,8 @@ export const StoreProvider = ({ children }) => {
    * Function that handles the sorting of the movies
    * @param sortBy  {String} identifier of the sorting type by which the movies will be sorted
    */
-  const handleSort = (sortBy) => {
-    setMovies((prevMovies) => {
+  const handleSort = (sortBy: string) => {
+    setMovies((prevMovies: SimpleMovieType[]) => {
       return sortFunc([...prevMovies], sortBy);
     });
   };
@@ -113,7 +138,7 @@ export const StoreProvider = ({ children }) => {
    * Function that updates movies state  after filterFunc filtered it
    * @param filterBy  {String} identifier of what filtering should filterFunc apply
    */
-  const filterMovies = (filterBy) => {
+  const filterMovies = (filterBy: string) => {
     setMovies(() => {
       return filterFunc(filterBy);
     });
@@ -124,8 +149,8 @@ export const StoreProvider = ({ children }) => {
    * @type {function(...[*]=): void}
    */
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedFilterMovies = useCallback(
-    debounce((value) => {
+  const debouncedFilterMovies: DebounceFilterMoviesProps = useCallback(
+    debounce((value: string) => {
       filterMovies(value);
     }, 250),
     []
@@ -133,7 +158,7 @@ export const StoreProvider = ({ children }) => {
 
   /**
    * Hook used for cleanup for the debounced filter function
-   * This hook ensures that when the component umounts
+   * This hook ensures that when the component unmounts
    * the function is cancelled so to avoid memory leaks
    */
   useEffect(() => {
@@ -147,10 +172,14 @@ export const StoreProvider = ({ children }) => {
    * @param episodeId {String} identifier of the star wars movie
    * @returns {*|{}}
    */
-  const movieSelector = (episodeId) =>
-    movies ? movies.find((movie) => movie.episode_id === episodeId) : {};
+  const movieSelector = (episodeId: string): SimpleMovieType =>
+    movies
+      ? movies.find(
+          (movie: SimpleMovieType) => movie.episode_id === parseInt(episodeId)
+        )
+      : {};
 
-  const store = {
+  const store: StoreType = {
     movies,
     setMovies,
     errorMessage,
@@ -165,8 +194,4 @@ export const StoreProvider = ({ children }) => {
   return (
     <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
   );
-};
-
-StoreProvider.propTypes = {
-  children: PropTypes.node.isRequired,
 };

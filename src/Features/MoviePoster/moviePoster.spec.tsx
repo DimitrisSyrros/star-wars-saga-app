@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import MoviePoster from './MoviePoster';
+import MoviePoster from './moviePoster';
 
 describe('MoviePoster', () => {
   it('renders the movie poster with the correct attributes', () => {
