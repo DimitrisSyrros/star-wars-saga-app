@@ -11,9 +11,13 @@ import {
   SkeletonMovieYear,
 } from './movieList_style';
 import { ContentSection } from '../../AppCore/app_style';
-import { StoreContext } from '../../AppCore/Store/store';
+import { StoreContext, StoreType } from '../../AppCore/Store/store';
 import PropTypes from 'prop-types';
 import StarRating from '../StarRating/starRating';
+
+type MovieListProps = {
+  onMovieSelect: (episodeId: number) => void;
+};
 
 /**
  * Component that renders the available movie list
@@ -22,8 +26,10 @@ import StarRating from '../StarRating/starRating';
  * @returns {Element}
  * @constructor
  */
-const MovieList = ({ onMovieSelect }) => {
-  const { movies, loading, detailsLoading } = useContext(StoreContext);
+const MovieList = ({ onMovieSelect }: MovieListProps): React.JSX.Element => {
+  const { movies, loading, detailsLoading } = useContext(
+    StoreContext
+  ) as StoreType;
   return (
     <ContentSection>
       <ListContainer>

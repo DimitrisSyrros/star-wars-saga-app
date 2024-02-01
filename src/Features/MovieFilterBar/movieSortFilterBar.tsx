@@ -5,7 +5,7 @@ import {
 } from './movieSortFilterBar_style';
 import MovieSorter from '../MovieSorter/movieSorter';
 import { useContext, useState } from 'react';
-import { StoreContext } from '../../AppCore/Store/store';
+import { StoreContext, StoreType } from '../../AppCore/Store/store';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -15,13 +15,15 @@ import { useNavigate } from 'react-router-dom';
  */
 const MovieSortFilterBar = () => {
   const [inputValue, setInputValue] = useState('');
-  const { debouncedFilterMovies, loading } = useContext(StoreContext);
+  const { debouncedFilterMovies, loading } = useContext(
+    StoreContext
+  ) as StoreType;
 
   /**
    * Calls the debounced filtering mechanism as well as updates the component's state
    * @param value the current event's target value
    */
-  const handleInputValue = (value) => {
+  const handleInputValue = (value: string) => {
     debouncedFilterMovies(value);
     setInputValue(value);
   };

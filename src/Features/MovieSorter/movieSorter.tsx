@@ -1,8 +1,11 @@
 import { SortBySelect } from './movieSorter_style';
-import { useContext } from 'react';
-import { StoreContext } from '../../AppCore/Store/store';
+import React, { useContext } from 'react';
+import { StoreContext, StoreType } from '../../AppCore/Store/store';
 import PropTypes from 'prop-types';
 
+type MovieSorter = {
+  disabled: boolean;
+};
 /**
  * A simple select that provides filtering options for the user to filter
  * the movielist by
@@ -10,8 +13,8 @@ import PropTypes from 'prop-types';
  * @returns {JSX.Element}
  * @constructor
  */
-const MovieSorter = ({ disabled }) => {
-  const { handleSort } = useContext(StoreContext);
+const MovieSorter = ({ disabled }: MovieSorter): React.JSX.Element => {
+  const { handleSort } = useContext(StoreContext) as StoreType;
   return (
     <SortBySelect
       defaultValue=""

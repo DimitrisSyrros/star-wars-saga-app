@@ -17,7 +17,7 @@ import ErrorModal from '../../Features/ErrorModal/errorModal';
  * @returns {Element}
  * @constructor
  */
-const AppContent = () => {
+const AppContent = (): React.JSX.Element => {
   const size = useWindowSize();
   const isMobile = size < 768;
   const navigate = useNavigate();
@@ -32,8 +32,8 @@ const AppContent = () => {
     const lastFetchedTime = localStorage.getItem('lastFetchedTime');
 
     if (lastFetchedTime) {
-      const now = new Date();
-      const lastFetchedDate = new Date(parseInt(lastFetchedTime));
+      const now = new Date().getDate();
+      const lastFetchedDate = new Date(parseInt(lastFetchedTime)).getDate();
       const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
       if (now - lastFetchedDate > sixHoursInMilliseconds) {
         clearCache();
@@ -45,7 +45,7 @@ const AppContent = () => {
    * This function utilizing the episode id of a selected movie navigates to the movie's path
    * @param episodeId {String} identifier of the movie
    */
-  const handleMovieSelect = (episodeId) => {
+  const handleMovieSelect = (episodeId: number) => {
     navigate(`/movie/${episodeId}`);
   };
 

@@ -10,7 +10,7 @@ import { BASE_PATH } from '../../AppCore/AppContent/common/constants';
  * @returns {JSX.Element}
  * @constructor
  */
-const MovieNotFound = () => (
+const MovieNotFound = (): JSX.Element => (
   <ContentSection>
     <MovieNotFoundTitle>
       These are not the details you are searching for!

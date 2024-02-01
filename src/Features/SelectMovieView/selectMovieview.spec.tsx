@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SelectMovieView from './SelectMovieView';
+import SelectMovieView from './selectMovieView';
 
 describe('SelectMovieView', () => {
   it('renders the title and informative message', () => {

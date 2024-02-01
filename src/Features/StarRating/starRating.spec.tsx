@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import StarRating from './StarRating';
+import StarRating from './starRating';
 
 describe('StarRating', () => {
   it('renders the correct number of filled and empty stars', () => {

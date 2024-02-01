@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ContentSection } from '../../AppCore/app_style';
 import { Link, useParams } from 'react-router-dom';
-import { StoreContext } from '../../AppCore/Store/store';
+import { StoreContext, StoreType } from '../../AppCore/Store/store';
 import {
   MovieDetailsContainer,
   MovieDetailsPlot,
@@ -16,9 +16,13 @@ import MoviePoster from '../MoviePoster/moviePoster';
 import StarRating from '../StarRating/starRating';
 import MovieNotFound from '../MovieNotFound/movieNotFound';
 import { BASE_PATH } from '../../AppCore/AppContent/common/constants';
-import PropTypes from 'prop-types';
+import { PercentileRatingsType } from '../../AppCore/genericTypes';
 
 const AVERAGE_RATING = 'Average rating: ';
+
+type MovieDetailsProps = {
+  isMobile: boolean;
+};
 
 /**
  * The movie details component renders all the details of a movie
@@ -31,9 +35,11 @@ const AVERAGE_RATING = 'Average rating: ';
  * @returns {Element}
  * @constructor
  */
-const MovieDetails = ({ isMobile }) => {
-  const { movieSelector, detailsLoading } = useContext(StoreContext);
-  const { episodeId } = useParams();
+const MovieDetails = ({ isMobile }: MovieDetailsProps): React.JSX.Element => {
+  const { movieSelector, detailsLoading } = useContext(
+    StoreContext
+  ) as StoreType;
+  const { episodeId = '' } = useParams();
   const selectedMovie = movieSelector(episodeId);
   const movieDetailsFetched =
     localStorage.getItem('movieDetailsFetched') === 'true';
@@ -66,11 +72,13 @@ const MovieDetails = ({ isMobile }) => {
               </MovieDetailsAvgRatingSection>
               <OtherRatingsSection>
                 {selectedMovie.ratings
-                  ? selectedMovie.ratings.map((rating) => (
-                      <OtherRating
-                        key={`${rating.source}_${rating.value}`}
-                      >{`${rating.source}: ${rating.value}%`}</OtherRating>
-                    ))
+                  ? selectedMovie.ratings.map(
+                      (rating: PercentileRatingsType) => (
+                        <OtherRating
+                          key={`${rating.source}_${rating.value}`}
+                        >{`${rating.source}: ${rating.value}%`}</OtherRating>
+                      )
+                    )
                   : null}
               </OtherRatingsSection>
             </MovieDetailsContainer>
@@ -81,9 +89,5 @@ const MovieDetails = ({ isMobile }) => {
       )}
     </React.Fragment>
   );
-};
-
-MovieDetails.propTypes = {
-  isMobile: PropTypes.bool,
 };
 export default MovieDetails;

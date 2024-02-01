@@ -11,7 +11,7 @@ import { StoreProvider } from './Store/store';
  * @returns {Element}
  * @constructor
  */
-const App = () => {
+const App = (): React.JSX.Element => {
   return (
     <StoreProvider>
       <Router>
